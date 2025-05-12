@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Business units</title>
+</head>
+<body>
+    <table border="1">
+        {% for bu in budetails %}
+        <tr>
+            <td>{{bu[0]}}</td>
+            <td>{{bu[1]}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
