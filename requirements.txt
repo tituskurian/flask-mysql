@@ -2,3 +2,5 @@ flask
 pandas
 mysqlclient
 flask_mysqldb
+pymysql
+cryptography
