@@ -1,0 +1,4 @@
+flask
+pandas
+mysqlclient
+flask_mysqldb

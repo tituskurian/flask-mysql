@@ -4,10 +4,10 @@ import MySQLdb
 from flask import Flask, render_template, request
 from flask_mysqldb import MySQL
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder='templates')
 
 # MySQL Configuration
-app.config['MYSQL_HOST'] = "localhost"
+app.config['MYSQL_HOST'] = "host.docker.internal"
 app.config['MYSQL_USER'] = "root"
 app.config['MYSQL_PASSWORD'] = "Kaduva#786"
 app.config['MYSQL_DB'] = "mysampledb"
