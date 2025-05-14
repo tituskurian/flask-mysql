@@ -6,6 +6,7 @@ from flask_mysqldb import MySQL
 
 app = Flask(__name__)
 
+# MySQL Configuration
 app.config['MYSQL_HOST'] = "localhost"
 app.config['MYSQL_USER'] = "root"
 app.config['MYSQL_PASSWORD'] = "Kaduva#786"
@@ -18,6 +19,8 @@ busql = "INSERT INTO businessunit(BuCode,Name,Head,EmpCount,ProjectCount,Revenue
 buselect = "SELECT * FROM businessunit"
 budetails = []
 
+def get_db_connect():
+    return MySQLdb.connect(host=app.config['MYSQL_HOST'],user=app.config['MYSQL_USER'],password=app.config['MYSQL_PASSWORD'],db=app.config['MYSQL_DB'])
 @app.route("/", methods=['GET', 'POST'])
 def home():
     # return "Hailo World"
@@ -25,7 +28,7 @@ def home():
         empid = request.form['empid']
         empname = request.form['empname']
 
-        cursor = myFlaskSql.connection.cursor()
+        cursor = get_db_connect().cursor()
         try:
             # cursor.execute(
             #     "INSERT INTO employee(EmpId,Name,Designation,Dob,BU,JoinDate,EmpType,WorkLocation) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')",
@@ -41,7 +44,7 @@ def home():
 
 @app.route("/bu")
 def bu():
-    cursor = myFlaskSql.connection.cursor()
+    cursor = get_db_connect().cursor()
     bus = cursor.execute(buselect)
     if bus > 0:
         budetails = cursor.fetchall()
@@ -49,12 +52,12 @@ def bu():
 
 @app.route("/business")
 def business():
-    con = myFlaskSql.connection
+    con = get_db_connect()
     df = pd.read_sql(buselect, con)
     response = df.to_json(orient="records")
     # response = df.to_json(budetails)
     return response
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
 
