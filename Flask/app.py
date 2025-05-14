@@ -1,4 +1,4 @@
-import json
+import pymysql
 import pandas as pd
 import MySQLdb
 from flask import Flask, render_template, request
@@ -20,7 +20,7 @@ buselect = "SELECT * FROM businessunit"
 budetails = []
 
 def get_db_connect():
-    return MySQLdb.connect(host=app.config['MYSQL_HOST'],user=app.config['MYSQL_USER'],password=app.config['MYSQL_PASSWORD'],db=app.config['MYSQL_DB'])
+    return pymysql.connect(host=app.config['MYSQL_HOST'],user=app.config['MYSQL_USER'],password=app.config['MYSQL_PASSWORD'],db=app.config['MYSQL_DB'])
 @app.route("/", methods=['GET', 'POST'])
 def home():
     # return "Hailo World"
