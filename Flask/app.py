@@ -1,4 +1,3 @@
-import pymysql
 import pandas as pd
 import MySQLdb
 from flask import Flask, render_template, request
@@ -9,7 +8,7 @@ app = Flask(__name__,template_folder='templates')
 # MySQL Configuration
 app.config['MYSQL_HOST'] = "host.docker.internal"
 app.config['MYSQL_USER'] = "root"
-app.config['MYSQL_PASSWORD'] = "Kaduva#786"
+app.config['MYSQL_PASSWORD'] = ""
 app.config['MYSQL_DB'] = "mysampledb"
 
 myFlaskSql = MySQL(app)
@@ -20,7 +19,8 @@ buselect = "SELECT * FROM businessunit"
 budetails = []
 
 def get_db_connect():
-    return pymysql.connect(host=app.config['MYSQL_HOST'],user=app.config['MYSQL_USER'],password=app.config['MYSQL_PASSWORD'],db=app.config['MYSQL_DB'])
+    return myFlaskSql.connection
+
 @app.route("/", methods=['GET', 'POST'])
 def home():
     # return "Hailo World"
@@ -30,15 +30,12 @@ def home():
 
         cursor = get_db_connect().cursor()
         try:
-            # cursor.execute(
-            #     "INSERT INTO employee(EmpId,Name,Designation,Dob,BU,JoinDate,EmpType,WorkLocation) VALUES ('%s','%s','%s','%s','%s','%s','%s','%s')",
-            #     (int(empid), empname, None, None, None, None, None, None))
             buval = (empid, empname, ' ', 3, 3, 7000000.00)
             cursor.execute(busql,buval)
-            myFlaskSql.connection.commit()
-            cursor.close()
         except MySQLdb.ProgrammingError as e:
             return "failure: " + e.__str__()
+        finally:
+            myFlaskSql.connection.commit()
         return "success"
     return render_template('home.html')
 
@@ -60,4 +57,3 @@ def business():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
-

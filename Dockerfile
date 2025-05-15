@@ -1,17 +1,13 @@
 FROM python:3.13.3
 # RUN pip install mysql-connector-python
-# RUN pip install --upgrade pip
+RUN pip install --upgrade pip
 
 WORKDIR /app
 
 COPY requirements.txt .
 RUN python -m pip install -r requirements.txt
 
-# RUN mkdir /app
-
-COPY Flask/templates .
-COPY Flask/app.py .
-# ENV FLASK_APP=app.py
+COPY Flask .
 
 EXPOSE 5000
 

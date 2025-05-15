@@ -2,5 +2,6 @@ flask
 pandas
 mysqlclient
 flask_mysqldb
-pymysql
+# pymysql
 cryptography
+tzdata
